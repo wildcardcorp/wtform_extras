@@ -39,7 +39,13 @@ def _getTemplate(style, *names):
     return template
 
 
-def render_field(form, fieldname, style='default', **field_options):
+class HTML(unicode):
+    def __html__(self):
+        return self
+
+
+def render_field(form, fieldname, style='default', field_options={},
+                 **options):
     field = form._fields[fieldname]
     if hasattr(field, 'template'):
         template = field.template
@@ -52,14 +58,15 @@ def render_field(form, fieldname, style='default', **field_options):
     if style == 'bootstrap':
         if 'class' not in field_options:
             field_options['class'] = 'form-control'
-    val = field(**field_options)
     if template:
-        return template(markup=val, field=field,
-                        errors=form.errors.get(fieldname, []))
-    return val
+        return HTML(template(field=field, field_options=field_options,
+                             errors=form.errors.get(fieldname, []),
+                             **options))
+    else:
+        return HTML(field(**field_options))
 
 
-def render_form(form, style='default', field_options={}):
+def render_form(form, style='default', field_options={}, **options):
     if hasattr(form, '_order'):
         order = form._order
     else:
@@ -68,21 +75,25 @@ def render_form(form, style='default', field_options={}):
     template = _getTemplate(style, 'form.pt')
 
     def render(fieldname):
-        return render_field(form, fieldname, style=style, **field_options)
-    return template(form=form, fields=order, render=render)
+        return render_field(form, fieldname, style=style,
+                            field_options=field_options, **options)
+    return HTML(template(form=form, fields=order, render=render))
 
 
 class Renderer(object):
 
-    def __init__(self, form=None, style='default', field_options={}):
+    def __init__(self, form=None, style='default', field_options={},
+                 **options):
         self.style = style
         self.form = form
         self.field_options = field_options
+        self.options = options
 
     def __call__(self):
         return render_form(self.form, style=self.style,
-                           field_options=self.field_options)
+                           field_options=self.field_options, **self.options)
 
     def field(self, fieldname):
         return render_field(self.form, fieldname, style=self.style,
-                            field_options=self.field_options)
+                            field_options=self.field_options,
+                            **self.options)

@@ -1,10 +1,10 @@
-<div class="row">
+<div class="row" id="${field.id}-wrapper">
   <div class="large-12 columns">
-    <label class="error" tal:condition="errors">${python: field.label.text}
-      ${markup}
+    <label for="${field.id}" class="error" tal:condition="errors">${python: field.label.text}
+      ${python: field(id=field.id, **field_options)}
     </label>
-    <label tal:condition="not: errors">${python: field.label.text}
-      ${markup}
+    <label for="${field.id}" tal:condition="not: errors">${python: field.label.text}
+      ${python: field(id=field.id, **field_options)}
     </label>
     <small class="error" tal:condition="errors">
       <span tal:repeat="error errors">
