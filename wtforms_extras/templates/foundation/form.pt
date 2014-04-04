@@ -1,0 +1,13 @@
+<div class="alert-box warning" tal:condition="python: form.errors">
+  There is an error on this form
+</div>
+<form method="POST">
+  <tal:fields tal:repeat="field fields">
+    ${structure: python: render(field)}
+  </tal:fields>
+  <div class="row">
+    <div class="large-offset-9 large-3 columns">
+      <input class="button" type="submit" value="Submit" />
+    </div>
+  </div>
+</form>

@@ -1,0 +1,15 @@
+<div class="form-group"
+     tal:attributes="class python: errors and 'form-group error' or 'form-group'">
+  <label for="${field.id}" class="col-sm-2 control-label">${python: field.label.text}</label>
+  <div class="col-sm-10">
+    ${markup}
+  </div>
+  <p class="help-block">
+    ${field.description}
+    <ul tal:condition="errors">
+      <tal:errors tal:repeat="error errors">
+        <li>${error}</li>
+      </tal:errors>
+    </ul>
+  </p>
+</div>

@@ -1,0 +1,5 @@
+<form method="POST">
+  <tal:fields tal:repeat="field fields">
+    ${python: render(field)}
+  </tal:fields>
+</form>

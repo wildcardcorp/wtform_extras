@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="large-12 columns">
+    <label class="error" tal:condition="errors">${python: field.label.text}
+      ${markup}
+    </label>
+    <label tal:condition="not: errors">${python: field.label.text}
+      ${markup}
+    </label>
+    <small class="error" tal:condition="errors">
+      <span tal:repeat="error errors">
+        ${error}
+      </span>
+    </small>
+  </div>
+</div>
