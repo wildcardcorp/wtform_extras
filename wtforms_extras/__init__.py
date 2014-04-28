@@ -44,8 +44,13 @@ class HTML(unicode):
         return self
 
 
-def render_field(form, fieldname, style='default', field_options={},
+NO_VALUE = object()
+
+
+def render_field(form, fieldname, style='default', field_options=NO_VALUE,
                  **options):
+    if field_options == NO_VALUE:
+        field_options = {}
     field = form._fields[fieldname]
     if hasattr(field, 'template'):
         template = field.template
@@ -58,6 +63,9 @@ def render_field(form, fieldname, style='default', field_options={},
     if style == 'bootstrap':
         if 'class' not in field_options:
             field_options['class'] = 'form-control'
+    if field.description:
+        field_options['placeholder'] = field.description
+
     if template:
         return HTML(template(field=field, field_options=field_options,
                              errors=form.errors.get(fieldname, []),
@@ -66,7 +74,9 @@ def render_field(form, fieldname, style='default', field_options={},
         return HTML(field(**field_options))
 
 
-def render_form(form, style='default', field_options={}, **options):
+def render_form(form, style='default', field_options=NO_VALUE, **options):
+    if field_options == NO_VALUE:
+        field_options = {}
     if hasattr(form, '_order'):
         order = form._order
     else:
@@ -76,18 +86,20 @@ def render_form(form, style='default', field_options={}, **options):
 
     def render(fieldname):
         return render_field(form, fieldname, style=style,
-                            field_options=field_options, **options)
+                            field_options=field_options.copy(), **options)
     return HTML(template(form=form, fields=order, render=render))
 
 
 class Renderer(object):
 
-    def __init__(self, form=None, style='default', field_options={},
+    def __init__(self, form=None, style='default', field_options=NO_VALUE,
                  **options):
         self.style = style
         self.form = form
-        self.field_options = field_options
         self.options = options
+        if field_options == NO_VALUE:
+            field_options = {}
+        self.field_options = field_options
 
     def __call__(self):
         return render_form(self.form, style=self.style,
@@ -95,5 +107,5 @@ class Renderer(object):
 
     def field(self, fieldname):
         return render_field(self.form, fieldname, style=self.style,
-                            field_options=self.field_options,
+                            field_options=self.field_options.copy(),
                             **self.options)
