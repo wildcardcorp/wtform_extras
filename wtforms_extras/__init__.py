@@ -1,6 +1,7 @@
 from chameleon import PageTemplateLoader
 import os
 import logging
+from wtforms import validators
 
 
 logger = logging.getLogger('wtforms_extras')
@@ -39,6 +40,13 @@ def _getTemplate(style, *names):
     return template
 
 
+try:
+    unicode = unicode  # noqa
+except NameError:
+    # python 3
+    unicode = str
+
+
 class HTML(unicode):
     def __html__(self):
         return self
@@ -65,6 +73,12 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
             field_options['class'] = 'form-control'
     if field.description:
         field_options['placeholder'] = field.description
+
+    options['required'] = False
+    for validator in field.validators:
+        if type(validator) == validators.Required:
+            options['required'] = True
+            break
 
     if template:
         return HTML(template(field=field, field_options=field_options,
