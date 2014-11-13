@@ -1,7 +1,9 @@
-<tal:errors tal:condition="python: form.errors">
-  <div class="alert alert-danger" role="alert">There are errors on this form</div>
-</tal:errors>
+<div class="form-wrapper">
+    <tal:errors tal:condition="python: form.errors">
+      <div class="alert alert-danger" role="alert">There are errors on this form</div>
+    </tal:errors>
 
-<tal:fields tal:repeat="field fields">
-${python: render(field)}
-</tal:fields>
+    <tal:fields tal:repeat="field fields">
+    ${python: render(field)}
+    </tal:fields>
+</div>

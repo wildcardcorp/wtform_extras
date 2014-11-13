@@ -12,14 +12,14 @@ class FieldTests(unittest.TestCase):
         pass
 
     def test_render_form(self):
-        self.assertIn('<form', renderer())
+        self.assertIn('class="form-wrapper"', renderer())
 
     def test_render_bootstrap(self):
         _renderer = Renderer(form, 'bootstrap')
-        self.assertIn('<form', _renderer())
+        self.assertIn('class="form-wrapper"', _renderer())
 
     def test_error(self):
         _form = TestForm()
         _form.validate()
         _renderer = Renderer(_form, 'bootstrap')
-        self.assertIn('form-group error', _renderer())
+        self.assertIn('form-group has-error', _renderer())

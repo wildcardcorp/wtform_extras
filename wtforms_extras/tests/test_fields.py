@@ -29,10 +29,10 @@ class FieldTests(unittest.TestCase):
     def test_bootstrap(self):
         _renderer = Renderer(form, 'bootstrap')
         self.assertIn('form-group', _renderer.field('text'))
-        self.assertNotIn('form-group error', _renderer.field('text'))
+        self.assertNotIn('form-group has-error', _renderer.field('text'))
 
     def test_error(self):
         _form = TestForm()
         _form.validate()
         _renderer = Renderer(_form, 'bootstrap')
-        self.assertIn('form-group error', _renderer.field('text'))
+        self.assertIn('form-group has-error', _renderer.field('text'))

@@ -5,7 +5,7 @@ version = '1.0'
 requires = [
     'wtforms',
     'Chameleon'
-    ]
+]
 
 test_requires = [
 ]
