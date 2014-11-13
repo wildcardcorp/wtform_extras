@@ -22,11 +22,16 @@ Example::
 
     # or just a field
     from wtforms_extras import render_field
-    render_form(form, 'age', style='bootstrap')
+    render_field(form, 'age', style='bootstrap')
 
 
 Changelog
 =========
+
+1.0.1 - 2014-11-13
+------------------
+
+- doc fix
 
 1.0 - 2014-11-13
 ----------------
