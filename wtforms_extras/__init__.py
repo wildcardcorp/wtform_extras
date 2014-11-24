@@ -59,7 +59,11 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
                  **options):
     if field_options == NO_VALUE:
         field_options = {}
-    field = form._fields[fieldname]
+    try:
+        field = form._fields[fieldname]
+    except:
+        import pdb; pdb.set_trace()
+        raise
     if hasattr(field, 'template'):
         template = field.template
     elif hasattr(field.widget, 'template'):
@@ -88,20 +92,50 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
         return HTML(field(**field_options))
 
 
+class Fieldset(object):
+
+    def __init__(self, name, fields):
+        self.name = name
+        self.fields = fields
+
+    def __iter__(self):
+        for field in self.fields:
+            yield field
+
+
+class Fieldsets(object):
+
+    def __init__(self, data):
+        self.data = data
+
+    def __iter__(self):
+        for name, fields in self.data.items():
+            yield Fieldset(name, fields)
+
+
 def render_form(form, style='default', field_options=NO_VALUE, **options):
     if field_options == NO_VALUE:
         field_options = {}
-    if hasattr(form, '_order'):
-        order = form._order
+
+    if hasattr(form, 'fieldsets'):
+        fieldsets = Fieldsets(form.fieldsets)
     else:
-        order = form._fields.keys()
+        if hasattr(form, 'order'):
+            order = form.order
+        elif hasattr(form, '_order'):
+            order = form._order
+        else:
+            order = form._fields.keys()
+        fieldsets = Fieldsets({
+            '': order
+        })
 
     template = _getTemplate(style, 'form.pt')
 
     def render(fieldname):
         return render_field(form, fieldname, style=style,
                             field_options=field_options.copy(), **options)
-    return HTML(template(form=form, fields=order, render=render))
+    return HTML(template(form=form, fieldsets=fieldsets, render=render))
 
 
 class Renderer(object):
