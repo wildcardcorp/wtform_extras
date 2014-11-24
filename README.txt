@@ -28,6 +28,14 @@ Example::
 Changelog
 =========
 
+1.1.0 - 2014-11-24
+------------------
+
+- be able to use fieldsets
+
+- fix to always allow html rendering
+
+
 1.0.1 - 2014-11-13
 ------------------
 

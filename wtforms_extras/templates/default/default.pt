@@ -11,6 +11,6 @@
     </ul>
   </div>
   <div class="placeholder"></div>
-  ${python: field(**field_options)}
+  <div tal:replace="structure python: field(**field_options)" />
   <div class="clearfix visible-xs"></div>
 </div>
