@@ -4,7 +4,7 @@
   </tal:errors>
 
   <tal:fieldsets tal:repeat="fieldset fieldsets">
-    <fieldset tal:omit-tag="python: fieldset.name">
+    <fieldset tal:omit-tag="python: not fieldset.name">
       <legend tal:condition="python: fieldset.name">${fieldset.name}</legend>
       <tal:fields tal:repeat="field fieldset">
       ${python: render(field)}
