@@ -59,11 +59,7 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
                  **options):
     if field_options == NO_VALUE:
         field_options = {}
-    try:
-        field = form._fields[fieldname]
-    except:
-        import pdb; pdb.set_trace()
-        raise
+    field = form._fields[fieldname]
     if hasattr(field, 'template'):
         template = field.template
     elif hasattr(field.widget, 'template'):
