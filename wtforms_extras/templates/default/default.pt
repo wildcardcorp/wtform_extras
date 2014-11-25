@@ -1,7 +1,7 @@
 <div class="field-wrapper field"
      tal:attributes="class python: errors and 'field-wrapper field error' or 'field-wrapper field'">
   <label class="formQuestion" for="%(id)s">${python: field.label.text}</label>
-  <span tal:condition="required" class="required" title="Required" style="color: #f00;">&#10042;</span>
+  <span tal:condition="required" class="required" title="Required"></span>
   <div class="formHelp">${field.description}</div>
   <div class="fieldErrorBox" tal:condition="errors">
     <ul tal:condition="errors">

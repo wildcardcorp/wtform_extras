@@ -28,6 +28,11 @@ Example::
 Changelog
 =========
 
+1.1.3 - 2014-11-25
+------------------
+
+- remove error star on default field
+
 1.1.2 - 2014-11-25
 ------------------
 
