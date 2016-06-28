@@ -81,7 +81,13 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
             break
 
     if template:
-        return HTML(template(field=field, field_options=field_options,
+        def field_renderer(field, extra_options=None, **kwargs):
+            extra_args = extra_options if extra_options else {}
+            extra_args.update(kwargs)
+            return field(**extra_args)
+        return HTML(template(field_renderer=field_renderer,
+                             field=field,
+                             field_options=field_options,
                              errors=form.errors.get(fieldname, []),
                              **options))
     else:
