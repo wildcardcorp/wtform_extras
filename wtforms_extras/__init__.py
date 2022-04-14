@@ -76,7 +76,7 @@ def render_field(form, fieldname, style='default', field_options=NO_VALUE,
 
     options['required'] = False
     for validator in field.validators:
-        if type(validator) == validators.Required:
+        if type(validator) == validators.DataRequired:
             options['required'] = True
             break
 
