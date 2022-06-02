@@ -1,0 +1,4 @@
+include *.md
+include *.py
+include buildout.cfg
+recursive-include wtforms_extras *.pt
