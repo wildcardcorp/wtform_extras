@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.0 (unreleased)
-------------------
+1.1.4+wc1 (2022-06-02)
+----------------------
 
 - bug fixes for validators
 
